@@ -1,0 +1,19 @@
+#include <string.h>
+
+char* removeDigit(char* number, char digit) {
+   
+    char* pos = strchr(number, digit);
+    
+    
+    if (pos == NULL) {
+        return number;
+    }
+
+  
+    while (*pos) {
+        *pos = *(pos + 1);
+        pos++;
+    }
+
+    return number;
+}
