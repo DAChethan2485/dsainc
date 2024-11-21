@@ -1,0 +1,104 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+
+void push(struct Node** top, int data);
+int pop(struct Node** top);
+void enqueue(struct Node** front, int data);
+int dequeue(struct Node** front);
+void display(struct Node* head);
+
+int main() {
+    struct Node* stack = NULL;
+
+    printf("Stack Operations:\n");
+    push(&stack, 10);
+    push(&stack, 20);
+    push(&stack, 30);
+    printf("Stack after push operations: ");
+    display(stack);
+
+    printf("Popped element: %d\n", pop(&stack));
+    printf("Stack after pop operation: ");
+    display(stack);
+
+    printf("\nQueue Operations:\n");
+    enqueue(&queue, 10);
+    enqueue(&queue, 20);
+    enqueue(&queue, 30);
+    printf("Queue after enqueue operations: ");
+    display(queue);
+
+    printf("Dequeued element: %d\n", dequeue(&queue));
+    printf("Queue after dequeue operation: ");
+    display(queue);
+
+    return 0;
+}
+
+void push(struct Node** top, int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = *top;
+    *top = newNode;
+}
+
+int pop(struct Node** top) {
+    if (*top == NULL) {
+        printf("Stack is empty.\n");
+        return -1;
+    }
+
+    struct Node* temp = *top;
+    int data = temp->data;
+    *top = (*top)->next;
+    free(temp);
+
+    return data;
+}
+
+void enqueue(struct Node** front, int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (*front == NULL) {
+        *front = newNode;
+        return;
+    }
+
+    struct Node* temp = *front;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+int dequeue(struct Node** front) {
+    if (*front == NULL) {
+        printf("Queue is empty.\n");
+        return -1;
+    }
+
+    struct Node* temp = *front;
+    int data = temp->data;
+    *front = (*front)->next;
+    free(temp);
+
+    return data;
+}
+
+void display(struct Node* head) {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
